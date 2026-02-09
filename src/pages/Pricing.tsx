@@ -95,9 +95,35 @@ const Pricing = () => {
         </section>
 
         {/* Plan cards */}
-        <section className="pb-16 px-4 md:px-8">
+        <section className="pb-8 px-4 md:px-8">
           <PlanCards plans={plans} period={period} eligibility={eligibility} isLoggedIn={isLoggedIn} />
         </section>
+
+        {/* Go Dormant option */}
+        {isLoggedIn && (
+          <section className="pb-16 px-4 md:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="max-w-xl mx-auto text-center border border-border rounded-2xl p-6 bg-card shadow-card"
+            >
+              <p className="text-sm text-muted-foreground mb-1 font-medium">Need a break?</p>
+              <p className="text-xs text-muted-foreground mb-4">
+                Switch to Dormant for €0.99/mo — keep your account &amp; data, but pause full access. Reactivate anytime.
+              </p>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  alert('Go Dormant action: switch to dormant tier (€0.99/mo)');
+                }}
+              >
+                Go Dormant
+              </Button>
+            </motion.div>
+          </section>
+        )}
 
         {/* Corporate section */}
         <CorporateSection period={period} />
