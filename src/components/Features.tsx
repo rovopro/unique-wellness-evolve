@@ -26,7 +26,7 @@ const features = [
 
 const Features = () => {
   return (
-    <section id="features" className="section-padding bg-muted/30">
+    <section id="app-features" className="section-padding bg-muted/30">
       <div className="container mx-auto">
         {/* Section Header */}
         <motion.div
