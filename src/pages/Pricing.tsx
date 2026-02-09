@@ -37,14 +37,14 @@ const Pricing = () => {
                   size="sm"
                   onClick={() => setEligibility('nonintender')}
                 >
-                  Non-intender
+                  Mind-Coaching Only
                 </Button>
                 <Button
                   variant={eligibility === 'intender_actor' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setEligibility('intender_actor')}
                 >
-                  Intender / Actor
+                  Full-Features App
                 </Button>
               </div>
               <div className="label-badge mx-auto w-fit mb-4">Transparent & Fair</div>
