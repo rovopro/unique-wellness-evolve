@@ -121,45 +121,31 @@ const pillars: Record<PillarKey, {
 };
 
 const CorePillars = () => {
-  const [activePillar, setActivePillar] = useState<PillarKey | null>(null);
+  const [activePillar, setActivePillar] = useState<PillarKey>('exercise');
   const sectionRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [showFloating, setShowFloating] = useState(false);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const [isSticky, setIsSticky] = useState(false);
 
-  const currentPillar = activePillar ? pillars[activePillar] : null;
+  const currentPillar = pillars[activePillar];
 
   useEffect(() => {
-    if (!activePillar || !contentRef.current) {
-      setShowFloating(false);
-      return;
-    }
-
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setShowFloating(!entry.isIntersecting);
+        setIsSticky(!entry.isIntersecting);
       },
       { threshold: 0, rootMargin: '-80px 0px 0px 0px' }
     );
 
-    observer.observe(contentRef.current);
-    return () => observer.disconnect();
-  }, [activePillar]);
-
-  const handleTabClick = (key: PillarKey) => {
-    if (activePillar === key) {
-      setActivePillar(null);
-      setShowFloating(false);
-    } else {
-      setActivePillar(key);
-      setTimeout(() => {
-        contentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 100);
+    if (headerRef.current) {
+      observer.observe(headerRef.current);
     }
-  };
 
-  const handleFloatingTabSwitch = (key: PillarKey) => {
+    return () => observer.disconnect();
+  }, []);
+
+  const handleTabSwitch = (key: PillarKey) => {
     setActivePillar(key);
-    contentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
@@ -167,6 +153,7 @@ const CorePillars = () => {
       <div className="container mx-auto">
         {/* Section Header */}
         <motion.div
+          ref={headerRef}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -179,18 +166,18 @@ const CorePillars = () => {
           </h2>
         </motion.div>
 
-        {/* Pillar Cards — click to expand */}
-        <div className="flex justify-center gap-3 md:gap-6 mb-12">
+        {/* Inline Tabs (visible when not sticky) */}
+        <div className={`flex justify-center gap-3 md:gap-6 mb-12 transition-opacity duration-300 ${isSticky ? 'opacity-0' : 'opacity-100'}`}>
           {(Object.keys(pillars) as PillarKey[]).map((key) => {
             const pillar = pillars[key];
             const isActive = activePillar === key;
             return (
               <button
                 key={key}
-                onClick={() => handleTabClick(key)}
+                onClick={() => handleTabSwitch(key)}
                 className={`flex flex-col items-center gap-2 px-6 py-4 md:px-10 md:py-5 rounded-2xl transition-all duration-300 ${
                   isActive
-                    ? 'bg-primary text-primary-foreground shadow-wellness-lg ring-2 ring-primary ring-offset-2 ring-offset-background scale-105'
+                    ? 'bg-primary text-primary-foreground shadow-wellness-lg'
                     : 'bg-muted text-muted-foreground hover:bg-muted/80'
                 }`}
               >
@@ -201,10 +188,10 @@ const CorePillars = () => {
           })}
         </div>
 
-        {/* Floating Sticky Tabs — only when pillar active & scrolled past */}
+        {/* Floating Sticky Tabs */}
         <div
           className={`fixed top-20 left-0 right-0 z-40 flex justify-center transition-all duration-300 pointer-events-none ${
-            showFloating ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
+            isSticky ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
           }`}
         >
           <div className="pointer-events-auto flex gap-2 md:gap-4 bg-background/80 backdrop-blur-lg rounded-full shadow-lg px-3 py-2 border border-border/50">
@@ -214,7 +201,7 @@ const CorePillars = () => {
               return (
                 <button
                   key={key}
-                  onClick={() => handleFloatingTabSwitch(key)}
+                  onClick={() => handleTabSwitch(key)}
                   className={`flex items-center gap-2 px-4 py-2 md:px-6 md:py-3 rounded-full transition-all duration-300 ${
                     isActive
                       ? 'bg-primary text-primary-foreground shadow-md'
@@ -229,70 +216,70 @@ const CorePillars = () => {
           </div>
         </div>
 
-        {/* Pillar Content — shown only when selected */}
-        <div ref={contentRef} className="scroll-mt-24">
-          <AnimatePresence mode="wait">
-            {currentPillar && activePillar && (
-              <motion.div
-                key={activePillar}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4 }}
-              >
-                <div className="text-center mb-16 max-w-3xl mx-auto">
-                  <p className="text-muted-foreground text-lg">
-                    {currentPillar.description}
-                  </p>
-                </div>
+        {/* Pillar Content — Alternating Layout */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activePillar}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+          >
+            {/* Description */}
+            <div className="text-center mb-16 max-w-3xl mx-auto">
+              <p className="text-muted-foreground text-lg">
+                {currentPillar.description}
+              </p>
+            </div>
 
-                <div className="space-y-20 md:space-y-28">
-                  {currentPillar.features.map((feature, index) => {
-                    const isReversed = index % 2 !== 0;
-                    return (
-                      <div
-                        key={index}
-                        className={`flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-10 md:gap-14 lg:gap-20`}
-                      >
-                        <motion.div
-                          initial={{ opacity: 0, x: isReversed ? 30 : -30 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.6 }}
-                          className="flex-1 text-center md:text-left"
-                        >
-                          <span className="text-primary font-semibold text-sm uppercase tracking-wider">
-                            {feature.label}
-                          </span>
-                          <h3 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4 italic">
-                            {feature.title}
-                          </h3>
-                          <p className="text-muted-foreground text-lg max-w-md mx-auto md:mx-0">
-                            {feature.description}
-                          </p>
-                        </motion.div>
+            {/* Alternating Feature Rows */}
+            <div className="space-y-20 md:space-y-28">
+              {currentPillar.features.map((feature, index) => {
+                const isReversed = index % 2 !== 0;
+                return (
+                  <div
+                    key={index}
+                    className={`flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-10 md:gap-14 lg:gap-20`}
+                  >
+                    {/* Text */}
+                    <motion.div
+                      initial={{ opacity: 0, x: isReversed ? 30 : -30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6 }}
+                      className="flex-1 text-center md:text-left"
+                    >
+                      <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+                        {feature.label}
+                      </span>
+                      <h3 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4 italic">
+                        {feature.title}
+                      </h3>
+                      <p className="text-muted-foreground text-lg max-w-md mx-auto md:mx-0">
+                        {feature.description}
+                      </p>
+                    </motion.div>
 
-                        <motion.div
-                          initial={{ opacity: 0, x: isReversed ? -30 : 30 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.6, delay: 0.15 }}
-                          className="flex-1 flex justify-center"
-                        >
-                          <img
-                            src={featurePlaceholder}
-                            alt={`${feature.label} app screen`}
-                            className="max-w-[280px] md:max-w-[320px]"
-                          />
-                        </motion.div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+                    {/* Phone Mockup */}
+                    <motion.div
+                      initial={{ opacity: 0, x: isReversed ? -30 : 30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6, delay: 0.15 }}
+                      className="flex-1 flex justify-center"
+                    >
+                      <img
+                        src={featurePlaceholder}
+                        alt={`${feature.label} app screen`}
+                        className="max-w-[280px] md:max-w-[320px]"
+                      />
+                    </motion.div>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );
