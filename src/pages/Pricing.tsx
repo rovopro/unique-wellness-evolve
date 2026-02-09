@@ -10,18 +10,17 @@ import AppStoreSync from '@/components/pricing/AppStoreSync';
 import PricingFAQ from '@/components/pricing/PricingFAQ';
 import { BillingPeriod, Eligibility, plans, UserSubscription } from '@/components/pricing/types';
 import { Info } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 // ── Mock state — in production, these come from auth + API ──
 const MOCK_LOGGED_IN = true;
-const MOCK_ELIGIBILITY: Eligibility = 'intender_actor' as Eligibility; // change to 'nonintender' to test reduced pricing
 const MOCK_SUBSCRIPTION: UserSubscription | null = null;
-// Example active sub: { source: 'web', status: 'active', planId: 'individual-full', planName: 'Individual Full', currentPeriodEnd: '2026-03-09', seatsUsed: 0, seatsTotal: 1 }
 
 const Pricing = () => {
   const [period, setPeriod] = useState<BillingPeriod>('monthly');
+  const [eligibility, setEligibility] = useState<Eligibility>('intender_actor');
 
   const isLoggedIn = MOCK_LOGGED_IN;
-  const eligibility: Eligibility | null = isLoggedIn ? MOCK_ELIGIBILITY : null;
 
   return (
     <div className="min-h-screen bg-background">
@@ -31,6 +30,23 @@ const Pricing = () => {
         <section id="pricing" className="pt-28 pb-8 md:pt-36 md:pb-12 section-padding">
           <div className="container mx-auto text-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+              {/* Testing toggle */}
+              <div className="flex items-center justify-center gap-2 mb-6">
+                <Button
+                  variant={eligibility === 'nonintender' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setEligibility('nonintender')}
+                >
+                  Non-intender
+                </Button>
+                <Button
+                  variant={eligibility === 'intender_actor' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setEligibility('intender_actor')}
+                >
+                  Intender / Actor
+                </Button>
+              </div>
               <div className="label-badge mx-auto w-fit mb-4">Transparent & Fair</div>
               <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4">
                 Choose your plan
