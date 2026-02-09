@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 
 const navItems = [
   { label: 'Goals', href: '#goals' },
   { label: 'Features', href: '#features' },
   { label: 'For Business', href: '#business' },
-  { label: 'Pricing', href: '#pricing' },
+  { label: 'Pricing', href: '/pricing' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -44,17 +45,29 @@ const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-8">
-          {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                isScrolled ? 'text-foreground' : 'text-background/90 hover:text-background'
-              }`}
-            >
-              {item.label}
-            </a>
-          ))}
+          {navItems.map((item) =>
+            item.href.startsWith('/') ? (
+              <Link
+                key={item.label}
+                to={item.href}
+                className={`text-sm font-medium transition-colors hover:text-primary ${
+                  isScrolled ? 'text-foreground' : 'text-background/90 hover:text-background'
+                }`}
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <a
+                key={item.label}
+                href={item.href}
+                className={`text-sm font-medium transition-colors hover:text-primary ${
+                  isScrolled ? 'text-foreground' : 'text-background/90 hover:text-background'
+                }`}
+              >
+                {item.label}
+              </a>
+            )
+          )}
         </nav>
 
         {/* CTA Button */}
@@ -85,16 +98,27 @@ const Header = () => {
             className="lg:hidden bg-background border-t border-border"
           >
             <nav className="container py-4 flex flex-col gap-2">
-              {navItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="py-3 px-4 text-foreground font-medium hover:bg-muted rounded-lg transition-colors"
-                >
-                  {item.label}
-                </a>
-              ))}
+              {navItems.map((item) =>
+                item.href.startsWith('/') ? (
+                  <Link
+                    key={item.label}
+                    to={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="py-3 px-4 text-foreground font-medium hover:bg-muted rounded-lg transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="py-3 px-4 text-foreground font-medium hover:bg-muted rounded-lg transition-colors"
+                  >
+                    {item.label}
+                  </a>
+                )
+              )}
               <Button variant="accent" className="mt-4 w-full">
                 Get Started
               </Button>
