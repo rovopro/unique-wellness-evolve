@@ -27,7 +27,7 @@ const PlanCards = ({ plans, period, eligibility, isLoggedIn }: PlanCardsProps) =
   });
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+    <div className={`grid gap-6 max-w-6xl mx-auto ${visiblePlans.length === 1 ? 'max-w-md' : visiblePlans.length === 2 ? 'md:grid-cols-2 max-w-3xl' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
       {visiblePlans.map((plan, i) => {
         const savings = getSavingsPercent(plan, period);
         return (
