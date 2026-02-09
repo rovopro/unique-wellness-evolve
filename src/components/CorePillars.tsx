@@ -124,23 +124,32 @@ const CorePillars = () => {
   const [activePillar, setActivePillar] = useState<PillarKey>('exercise');
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const [isSticky, setIsSticky] = useState(false);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const [headerPassed, setHeaderPassed] = useState(false);
+  const [sectionInView, setSectionInView] = useState(false);
+
+  const isSticky = headerPassed && sectionInView;
 
   const currentPillar = pillars[activePillar];
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsSticky(!entry.isIntersecting);
-      },
+    const headerObs = new IntersectionObserver(
+      ([entry]) => setHeaderPassed(!entry.isIntersecting),
       { threshold: 0, rootMargin: '-80px 0px 0px 0px' }
     );
 
-    if (headerRef.current) {
-      observer.observe(headerRef.current);
-    }
+    const sectionObs = new IntersectionObserver(
+      ([entry]) => setSectionInView(entry.isIntersecting),
+      { threshold: 0 }
+    );
 
-    return () => observer.disconnect();
+    if (headerRef.current) headerObs.observe(headerRef.current);
+    if (sectionRef.current) sectionObs.observe(sectionRef.current);
+
+    return () => {
+      headerObs.disconnect();
+      sectionObs.disconnect();
+    };
   }, []);
 
   const handleTabSwitch = (key: PillarKey) => {
@@ -149,7 +158,7 @@ const CorePillars = () => {
   };
 
   return (
-    <section id="goals" ref={sectionRef} className="section-padding bg-background scroll-mt-20">
+    <section id="features" ref={sectionRef} className="section-padding bg-background scroll-mt-20">
       <div className="container mx-auto">
         {/* Section Header */}
         <motion.div
