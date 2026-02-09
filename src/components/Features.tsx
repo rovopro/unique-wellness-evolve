@@ -94,7 +94,7 @@ const Features = () => {
                   <img
                     src={featurePlaceholder}
                     alt={`${feature.label} app screen`}
-                    className="max-w-[280px] md:max-w-[320px] drop-shadow-2xl"
+                    className="max-w-[280px] md:max-w-[320px]"
                   />
                 </motion.div>
               </div>
