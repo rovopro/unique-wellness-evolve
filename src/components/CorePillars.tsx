@@ -152,6 +152,18 @@ const CorePillars = () => {
     };
   }, []);
 
+  // Listen for pillar switch from header dropdown
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const pillar = (e as CustomEvent).detail as PillarKey;
+      if (pillars[pillar]) {
+        setActivePillar(pillar);
+      }
+    };
+    window.addEventListener('switch-pillar', handler);
+    return () => window.removeEventListener('switch-pillar', handler);
+  }, []);
+
   const handleTabSwitch = (key: PillarKey) => {
     setActivePillar(key);
     sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
