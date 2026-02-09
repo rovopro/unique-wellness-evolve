@@ -1,55 +1,33 @@
 import { motion } from 'framer-motion';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import { 
-  Beaker, 
-  Brain, 
-  Target, 
-  Scale, 
-  TrendingUp, 
-  BarChart3, 
-  CreditCard 
-} from 'lucide-react';
+import featureExercise from '@/assets/feature-exercise.png';
+import featureNutrition from '@/assets/feature-nutrition.png';
+import featureMindset from '@/assets/feature-mindset.png';
+import featureProgress from '@/assets/feature-progress.png';
 
-const generalFeatures = [
+const features = [
   {
-    icon: Beaker,
-    title: 'Science-led and expert-built',
-    description: 'Designed by physicians and behavioural scientists using medical and lifestyle medicine principles.',
+    label: 'Science-Led Training',
+    title: 'Take the guesswork out of exercise.',
+    description: 'Designed by physicians and behavioural scientists, UN1Q adapts your training using over 70 data points — so every session is built for your body, not a template.',
+    image: featureExercise,
   },
   {
-    icon: Brain,
-    title: 'Behaviour-change focused',
-    description: 'Built to support sustainable habits rather than short-term motivation.',
+    label: 'Smart Nutrition',
+    title: 'Fuel your body with precision.',
+    description: 'Personalised nutrition plans that adapt to your goals, preferences, and lifestyle. AI-powered portion guidance and macro tracking without the overwhelm.',
+    image: featureNutrition,
   },
   {
-    icon: Target,
-    title: 'True individualisation',
-    description: 'Programs adapt using over 70 data points collected through onboarding and ongoing use.',
+    label: 'Mindset Coaching',
+    title: 'Build habits that actually stick.',
+    description: 'Behaviour-change focused coaching built to support sustainable habits rather than short-term motivation. Real psychology, not generic tips.',
+    image: featureMindset,
   },
   {
-    icon: Scale,
-    title: 'Flexible body composition tracking',
-    description: 'AI-powered estimates with optional manual input from calipers or devices.',
-  },
-  {
-    icon: TrendingUp,
-    title: 'Smart goal setting',
-    description: 'Visual and aesthetic targets help users plan realistic timelines and outcomes.',
-  },
-  {
-    icon: BarChart3,
-    title: 'Progress statistics dashboard',
-    description: 'One place to track progress across all health domains.',
-  },
-  {
-    icon: CreditCard,
-    title: 'Fair subscriptions',
-    description: 'Transparent pricing aligned with real value, without hidden limitations.',
+    label: 'Progress Tracking',
+    title: 'See your transformation unfold.',
+    description: 'AI-powered body composition estimates, visual goal setting, and a unified dashboard to track progress across all health domains in one place.',
+    image: featureProgress,
   },
 ];
 
@@ -63,54 +41,63 @@ const Features = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
           <span className="text-primary font-semibold text-sm uppercase tracking-wider">Features</span>
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-3 mb-4">
             Health, built around you
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            UN1Q brings together exercise, nutrition, and mindset into one adaptive system that evolves with your body, behaviour, and goals — guided by science, not trends.
+            UN1Q brings together exercise, nutrition, and mindset into one adaptive system that evolves with your body, behaviour, and goals.
           </p>
         </motion.div>
 
-        {/* General Features */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="max-w-3xl mx-auto"
-        >
-          <div className="text-center mb-8">
-            <h3 className="font-display text-2xl font-semibold text-foreground mb-4">General Features</h3>
-            <p className="text-muted-foreground">
-              UN1Q is not a collection of disconnected tools. It is a complete health system designed to support real, long-term change. Every feature works together to remove guesswork, reduce overwhelm, and help users move forward with clarity and confidence.
-            </p>
-          </div>
-
-          <Accordion type="single" collapsible className="space-y-3">
-            {generalFeatures.map((feature, index) => (
-              <AccordionItem
+        {/* Feature Rows */}
+        <div className="space-y-24 md:space-y-32">
+          {features.map((feature, index) => {
+            const isReversed = index % 2 !== 0;
+            return (
+              <div
                 key={index}
-                value={`item-${index}`}
-                className="bg-card rounded-2xl border-none shadow-card px-6"
+                className={`flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-12 md:gap-16 lg:gap-24`}
               >
-                <AccordionTrigger className="hover:no-underline py-5">
-                  <div className="flex items-center gap-4 text-left">
-                    <div className="w-10 h-10 rounded-xl bg-primary-light flex items-center justify-center flex-shrink-0">
-                      <feature.icon className="w-5 h-5 text-primary" />
-                    </div>
-                    <span className="font-medium text-foreground">{feature.title}</span>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground pb-5 pl-14">
-                  {feature.description}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </motion.div>
+                {/* Text */}
+                <motion.div
+                  initial={{ opacity: 0, x: isReversed ? 30 : -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                  className="flex-1 text-center md:text-left"
+                >
+                  <span className="text-primary font-semibold text-sm uppercase tracking-wider">
+                    {feature.label}
+                  </span>
+                  <h3 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4 italic">
+                    {feature.title}
+                  </h3>
+                  <p className="text-muted-foreground text-lg max-w-md mx-auto md:mx-0">
+                    {feature.description}
+                  </p>
+                </motion.div>
+
+                {/* Phone Mockup */}
+                <motion.div
+                  initial={{ opacity: 0, x: isReversed ? -30 : 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.15 }}
+                  className="flex-1 flex justify-center"
+                >
+                  <img
+                    src={feature.image}
+                    alt={`${feature.label} app screen`}
+                    className="max-w-[280px] md:max-w-[320px] drop-shadow-2xl"
+                  />
+                </motion.div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
