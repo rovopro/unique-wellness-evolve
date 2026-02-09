@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
 import featurePlaceholder from '@/assets/feature-placeholder.png';
 
 const features = [
@@ -7,25 +6,21 @@ const features = [
     label: 'Science-Led Training',
     title: 'Take the guesswork out of exercise.',
     description: 'Designed by physicians and behavioural scientists, UN1Q adapts your training using over 70 data points — so every session is built for your body, not a template.',
-    cta: true,
   },
   {
     label: 'Smart Nutrition',
     title: 'Fuel your body with precision.',
     description: 'Personalised nutrition plans that adapt to your goals, preferences, and lifestyle. AI-powered portion guidance and macro tracking without the overwhelm.',
-    cta: false,
   },
   {
     label: 'Mindset Coaching',
     title: 'Build habits that actually stick.',
     description: 'Behaviour-change focused coaching built to support sustainable habits rather than short-term motivation. Real psychology, not generic tips.',
-    cta: false,
   },
   {
     label: 'Progress Tracking',
     title: 'See your transformation unfold.',
     description: 'AI-powered body composition estimates, visual goal setting, and a unified dashboard to track progress across all health domains in one place.',
-    cta: true,
   },
 ];
 
@@ -76,11 +71,6 @@ const Features = () => {
                   <p className="text-muted-foreground text-lg max-w-md mx-auto md:mx-0">
                     {feature.description}
                   </p>
-                  {feature.cta && (
-                    <Button variant="accent" size="xl" className="mt-6">
-                      Get Started
-                    </Button>
-                  )}
                 </motion.div>
 
                 {/* Phone Mockup */}
