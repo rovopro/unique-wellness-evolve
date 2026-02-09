@@ -27,7 +27,7 @@ const PlanCards = ({ plans, period, eligibility, isLoggedIn }: PlanCardsProps) =
   });
 
   return (
-    <div className={`grid gap-6 max-w-6xl mx-auto ${visiblePlans.length === 1 ? 'max-w-md' : visiblePlans.length === 2 ? 'md:grid-cols-2 max-w-3xl' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
+    <div className={`flex flex-wrap justify-center gap-6 max-w-6xl mx-auto`}>
       {visiblePlans.map((plan, i) => {
         const savings = getSavingsPercent(plan, period);
         return (
@@ -37,7 +37,7 @@ const PlanCards = ({ plans, period, eligibility, isLoggedIn }: PlanCardsProps) =
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className={`relative rounded-2xl p-6 md:p-8 flex flex-col bg-card border transition-shadow hover:shadow-wellness-lg ${
+            className={`relative rounded-2xl p-6 md:p-8 flex flex-col bg-card border transition-shadow hover:shadow-wellness-lg w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] ${
               plan.popular ? 'border-primary shadow-wellness-lg ring-2 ring-primary/20' : 'border-border shadow-card'
             }`}
           >
