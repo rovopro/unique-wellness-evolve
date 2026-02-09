@@ -1,33 +1,31 @@
 import { motion } from 'framer-motion';
-import featureExercise from '@/assets/feature-exercise.png';
-import featureNutrition from '@/assets/feature-nutrition.png';
-import featureMindset from '@/assets/feature-mindset.png';
-import featureProgress from '@/assets/feature-progress.png';
+import { Button } from '@/components/ui/button';
+import featurePlaceholder from '@/assets/feature-placeholder.png';
 
 const features = [
   {
     label: 'Science-Led Training',
     title: 'Take the guesswork out of exercise.',
     description: 'Designed by physicians and behavioural scientists, UN1Q adapts your training using over 70 data points — so every session is built for your body, not a template.',
-    image: featureExercise,
+    cta: true,
   },
   {
     label: 'Smart Nutrition',
     title: 'Fuel your body with precision.',
     description: 'Personalised nutrition plans that adapt to your goals, preferences, and lifestyle. AI-powered portion guidance and macro tracking without the overwhelm.',
-    image: featureNutrition,
+    cta: false,
   },
   {
     label: 'Mindset Coaching',
     title: 'Build habits that actually stick.',
     description: 'Behaviour-change focused coaching built to support sustainable habits rather than short-term motivation. Real psychology, not generic tips.',
-    image: featureMindset,
+    cta: false,
   },
   {
     label: 'Progress Tracking',
     title: 'See your transformation unfold.',
     description: 'AI-powered body composition estimates, visual goal setting, and a unified dashboard to track progress across all health domains in one place.',
-    image: featureProgress,
+    cta: true,
   },
 ];
 
@@ -41,7 +39,7 @@ const Features = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className="text-center mb-16"
         >
           <span className="text-primary font-semibold text-sm uppercase tracking-wider">Features</span>
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-3 mb-4">
@@ -53,13 +51,13 @@ const Features = () => {
         </motion.div>
 
         {/* Feature Rows */}
-        <div className="space-y-24 md:space-y-32">
+        <div className="space-y-12 md:space-y-16">
           {features.map((feature, index) => {
             const isReversed = index % 2 !== 0;
             return (
               <div
                 key={index}
-                className={`flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-12 md:gap-16 lg:gap-24`}
+                className={`flex flex-col ${isReversed ? 'md:flex-row-reverse' : 'md:flex-row'} items-center gap-10 md:gap-14 lg:gap-20`}
               >
                 {/* Text */}
                 <motion.div
@@ -78,6 +76,11 @@ const Features = () => {
                   <p className="text-muted-foreground text-lg max-w-md mx-auto md:mx-0">
                     {feature.description}
                   </p>
+                  {feature.cta && (
+                    <Button variant="accent" size="xl" className="mt-6">
+                      Get Started
+                    </Button>
+                  )}
                 </motion.div>
 
                 {/* Phone Mockup */}
@@ -89,7 +92,7 @@ const Features = () => {
                   className="flex-1 flex justify-center"
                 >
                   <img
-                    src={feature.image}
+                    src={featurePlaceholder}
                     alt={`${feature.label} app screen`}
                     className="max-w-[280px] md:max-w-[320px] drop-shadow-2xl"
                   />
