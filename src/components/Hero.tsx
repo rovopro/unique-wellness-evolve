@@ -74,7 +74,7 @@ const Hero = () => {
         </motion.div>
 
         {/* Carousel Indicators */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
+        <div className="mt-10 flex justify-center gap-2">
           {heroImages.map((_, index) => (
             <button
               key={index}
