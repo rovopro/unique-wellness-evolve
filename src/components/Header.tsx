@@ -24,7 +24,7 @@ const navItems = [
   { label: 'Features', href: '#features', dropdown: 'features' as DropdownKey },
   { label: 'For Business', href: '#business' },
   { label: 'Pricing', href: '/pricing' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 const Header = () => {
