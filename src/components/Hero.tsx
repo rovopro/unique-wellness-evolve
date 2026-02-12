@@ -41,12 +41,12 @@ const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60" />
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 text-center">
+      <div className="relative z-10 container mx-auto px-4 text-left">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="max-w-3xl mx-auto"
+          className="max-w-3xl"
         >
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 backdrop-blur-none border border-primary/30 mb-6">
@@ -63,7 +63,7 @@ const Hero = () => {
           </h1>
 
           {/* Subheadline */}
-          <p className="text-background/90 text-lg md:text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-background/90 text-lg md:text-xl mb-8 max-w-2xl leading-relaxed">
             UN1Q is a physician-founded, science-backed health and wellness app combining medical expertise and lifestyle medicine across exercise, nutrition, coaching, sleep, and mobility.
           </p>
 
@@ -74,7 +74,7 @@ const Hero = () => {
         </motion.div>
 
         {/* Carousel Indicators */}
-        <div className="mt-10 flex justify-center gap-2">
+        <div className="mt-10 flex gap-2">
           {heroImages.map((_, index) => (
             <button
               key={index}
