@@ -26,11 +26,11 @@
     --secondary: 30 30% 96%;
     --secondary-foreground: 210 20% 15%;
 
-    /* Accent - Warm coral for CTAs */
-    --accent: 16 85% 60%;
-    --highlight: 50 95% 55%;
-    --accent-foreground: 0 0% 100%;
-    --accent-hover: 16 85% 55%;
+    /* Accent - Vibrant cyan */
+    --accent: 174 100% 50%;
+    --highlight: 174 90% 45%;
+    --accent-foreground: 0 0% 0%;
+    --accent-hover: 174 100% 44%;
 
     /* Muted tones */
     --muted: 210 20% 96%;
@@ -51,7 +51,7 @@
     --gradient-hero: linear-gradient(135deg, hsl(168, 65%, 38%) 0%, hsl(180, 50%, 30%) 100%);
     --gradient-hero-overlay: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
     --gradient-section: linear-gradient(180deg, hsl(168, 45%, 97%) 0%, hsl(0, 0%, 100%) 100%);
-    --gradient-cta: linear-gradient(135deg, hsl(16, 85%, 60%) 0%, hsl(20, 90%, 55%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(174, 100%, 50%) 0%, hsl(174, 90%, 42%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(0, 0%, 100%) 0%, hsl(210, 20%, 98%) 100%);
 
     /* Shadows */
@@ -60,7 +60,7 @@
     --shadow-lg: 0 12px 32px -8px rgba(0, 0, 0, 0.08), 0 4px 12px -4px rgba(0, 0, 0, 0.04);
     --shadow-xl: 0 24px 48px -12px rgba(0, 0, 0, 0.12);
     --shadow-card: 0 8px 24px -4px rgba(0, 0, 0, 0.06);
-    --shadow-button: 0 4px 14px -2px hsla(16, 85%, 60%, 0.35);
+    --shadow-button: 0 4px 14px -2px hsla(174, 100%, 50%, 0.35);
 
     /* Sidebar (keeping defaults) */
     --sidebar-background: 0 0% 98%;
@@ -86,7 +86,7 @@
     --secondary-foreground: 210 20% 95%;
     --muted: 220 15% 18%;
     --muted-foreground: 210 15% 60%;
-    --accent: 16 80% 55%;
+    --accent: 174 100% 45%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 50%;
     --destructive-foreground: 0 0% 100%;
@@ -131,7 +131,7 @@
 
   .btn-accent:hover {
     @apply scale-[1.02];
-    box-shadow: 0 6px 20px -2px hsla(16, 85%, 60%, 0.45);
+    box-shadow: 0 6px 20px -2px hsla(174, 100%, 50%, 0.45);
   }
 
   .btn-outline {
