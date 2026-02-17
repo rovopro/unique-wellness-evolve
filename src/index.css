@@ -16,11 +16,11 @@
     --popover: 0 0% 100%;
     --popover-foreground: 210 20% 15%;
 
-    /* Primary - Calming teal-green */
-    --primary: 168 65% 38%;
+    /* Primary - Vibrant cyan-teal */
+    --primary: 174 85% 32%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 168 45% 92%;
-    --primary-dark: 168 70% 28%;
+    --primary-light: 174 50% 92%;
+    --primary-dark: 174 90% 22%;
 
     /* Secondary - Soft warm neutral */
     --secondary: 30 30% 96%;
@@ -43,14 +43,14 @@
     /* Borders & inputs */
     --border: 210 20% 90%;
     --input: 210 20% 90%;
-    --ring: 168 65% 38%;
+    --ring: 174 85% 32%;
 
     --radius: 1rem;
 
     /* Custom gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(168, 65%, 38%) 0%, hsl(180, 50%, 30%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(174, 85%, 32%) 0%, hsl(174, 70%, 25%) 100%);
     --gradient-hero-overlay: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
-    --gradient-section: linear-gradient(180deg, hsl(168, 45%, 97%) 0%, hsl(0, 0%, 100%) 100%);
+    --gradient-section: linear-gradient(180deg, hsl(174, 50%, 97%) 0%, hsl(0, 0%, 100%) 100%);
     --gradient-cta: linear-gradient(135deg, hsl(174, 100%, 50%) 0%, hsl(174, 90%, 42%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(0, 0%, 100%) 0%, hsl(210, 20%, 98%) 100%);
 
@@ -80,7 +80,7 @@
     --card-foreground: 210 20% 95%;
     --popover: 220 20% 12%;
     --popover-foreground: 210 20% 95%;
-    --primary: 168 55% 45%;
+    --primary: 174 75% 38%;
     --primary-foreground: 0 0% 100%;
     --secondary: 220 15% 18%;
     --secondary-foreground: 210 20% 95%;
@@ -92,7 +92,7 @@
     --destructive-foreground: 0 0% 100%;
     --border: 220 15% 20%;
     --input: 220 15% 20%;
-    --ring: 168 55% 45%;
+    --ring: 174 75% 38%;
   }
 }
 
