@@ -201,8 +201,11 @@ const Header = () => {
           })}
         </nav>
 
-        {/* CTA Button */}
-        <div className="hidden lg:block">
+        {/* CTA Buttons */}
+        <div className="hidden lg:flex items-center gap-3">
+          <Link to="/dashboard">
+            <Button variant="outline" size="lg">Dashboard</Button>
+          </Link>
           <Button variant="accent" size="lg">Get Started</Button>
         </div>
 
@@ -257,7 +260,10 @@ const Header = () => {
                   </a>
                 );
               })}
-              <Button variant="accent" className="mt-4 w-full">Get Started</Button>
+              <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button variant="outline" className="mt-2 w-full">Dashboard</Button>
+              </Link>
+              <Button variant="accent" className="mt-2 w-full">Get Started</Button>
             </nav>
           </motion.div>
         )}
