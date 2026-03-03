@@ -16,21 +16,21 @@
     --popover: 0 0% 100%;
     --popover-foreground: 210 20% 15%;
 
-    /* Primary - Bright cyan */
-    --primary: 180 100% 50%;
-    --primary-foreground: 0 0% 0%;
-    --primary-light: 180 80% 92%;
-    --primary-dark: 180 100% 35%;
+    /* Primary - Rich teal */
+    --primary: 174 100% 40%;
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 174 60% 92%;
+    --primary-dark: 174 100% 28%;
 
     /* Secondary - Soft warm neutral */
     --secondary: 30 30% 96%;
     --secondary-foreground: 210 20% 15%;
 
-    /* Accent - Bright cyan */
-    --accent: 180 100% 50%;
-    --highlight: 180 100% 45%;
-    --accent-foreground: 0 0% 0%;
-    --accent-hover: 180 100% 44%;
+    /* Accent - Rich teal */
+    --accent: 174 100% 40%;
+    --highlight: 174 100% 36%;
+    --accent-foreground: 0 0% 100%;
+    --accent-hover: 174 100% 35%;
 
     /* Muted tones */
     --muted: 210 20% 96%;
@@ -43,15 +43,15 @@
     /* Borders & inputs */
     --border: 210 20% 90%;
     --input: 210 20% 90%;
-    --ring: 180 100% 50%;
+    --ring: 174 100% 40%;
 
     --radius: 1rem;
 
     /* Custom gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(180, 100%, 50%) 0%, hsl(180, 100%, 40%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(174, 100%, 40%) 0%, hsl(174, 100%, 32%) 100%);
     --gradient-hero-overlay: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
-    --gradient-section: linear-gradient(180deg, hsl(180, 80%, 97%) 0%, hsl(0, 0%, 100%) 100%);
-    --gradient-cta: linear-gradient(135deg, hsl(180, 100%, 50%) 0%, hsl(180, 100%, 42%) 100%);
+    --gradient-section: linear-gradient(180deg, hsl(174, 60%, 97%) 0%, hsl(0, 0%, 100%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(174, 100%, 40%) 0%, hsl(174, 100%, 34%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(0, 0%, 100%) 0%, hsl(210, 20%, 98%) 100%);
 
     /* Shadows */
@@ -60,7 +60,7 @@
     --shadow-lg: 0 12px 32px -8px rgba(0, 0, 0, 0.08), 0 4px 12px -4px rgba(0, 0, 0, 0.04);
     --shadow-xl: 0 24px 48px -12px rgba(0, 0, 0, 0.12);
     --shadow-card: 0 8px 24px -4px rgba(0, 0, 0, 0.06);
-    --shadow-button: 0 4px 14px -2px hsla(180, 100%, 50%, 0.35);
+    --shadow-button: 0 4px 14px -2px hsla(174, 100%, 40%, 0.35);
 
     /* Sidebar (keeping defaults) */
     --sidebar-background: 0 0% 98%;
@@ -80,19 +80,19 @@
     --card-foreground: 210 20% 95%;
     --popover: 220 20% 12%;
     --popover-foreground: 210 20% 95%;
-    --primary: 180 100% 50%;
+    --primary: 174 100% 40%;
     --primary-foreground: 0 0% 100%;
     --secondary: 220 15% 18%;
     --secondary-foreground: 210 20% 95%;
     --muted: 220 15% 18%;
     --muted-foreground: 210 15% 60%;
-    --accent: 180 100% 50%;
+    --accent: 174 100% 40%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 62.8% 50%;
     --destructive-foreground: 0 0% 100%;
     --border: 220 15% 20%;
     --input: 220 15% 20%;
-    --ring: 180 100% 50%;
+    --ring: 174 100% 40%;
   }
 }
 
