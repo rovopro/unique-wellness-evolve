@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Users, Activity, Clock, TrendingUp, TrendingDown, AlertTriangle, ArrowRight, Filter } from 'lucide-react';
+import { Users, Activity, Clock, TrendingUp, TrendingDown, AlertTriangle, ArrowRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { dashboardMetrics, mockActivityFeed, mockTeams } from '@/data/mock-data';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, CartesianGrid } from 'recharts';
@@ -23,7 +22,7 @@ const DashboardHome = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
-          <p className="text-sm text-muted-foreground">UNIQ Fitness Ltd — Overview</p>
+          <p className="text-sm text-muted-foreground">UNIQ Fitness Ltd — Aggregate Overview</p>
         </div>
         <div className="flex items-center gap-3">
           <Select value={dateRange} onValueChange={setDateRange}>
@@ -73,7 +72,6 @@ const DashboardHome = () => {
 
       {/* Charts row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* Activation Funnel */}
         <motion.div {...fadeIn} transition={{ delay: 0.2 }}>
           <Card>
             <CardHeader className="pb-2">
@@ -92,7 +90,6 @@ const DashboardHome = () => {
           </Card>
         </motion.div>
 
-        {/* Retention */}
         <motion.div {...fadeIn} transition={{ delay: 0.25 }}>
           <Card>
             <CardHeader className="pb-2">
@@ -126,7 +123,7 @@ const DashboardHome = () => {
             </div>
           </CardHeader>
           <CardContent className="space-y-3">
-            {mockTeams.sort((a, b) => b.engagement - a.engagement).slice(0, 5).map(team => (
+            {[...mockTeams].sort((a, b) => b.engagement - a.engagement).slice(0, 5).map(team => (
               <div key={team.id} className="flex items-center justify-between text-sm">
                 <span className="font-medium text-foreground">{team.name}</span>
                 <div className="flex items-center gap-2">
@@ -182,7 +179,7 @@ const DashboardHome = () => {
                   event.type === 'admin' ? 'bg-orange-500' : 'bg-muted-foreground'
                 }`} />
                 <div>
-                  <p className="text-foreground"><span className="font-medium">{event.user}</span> {event.action}</p>
+                  <p className="text-foreground">{event.action}</p>
                   <p className="text-xs text-muted-foreground">{event.timestamp}</p>
                 </div>
               </div>

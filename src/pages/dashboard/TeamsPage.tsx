@@ -1,11 +1,8 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TrendingUp, TrendingDown, Minus, Users, ArrowRight } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { TrendingUp, TrendingDown, Minus, Users } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
-import { mockTeams, mockUsers } from '@/data/mock-data';
+import { mockTeams } from '@/data/mock-data';
 
 const trendIcon = (t: string) => t === 'up' ? <TrendingUp size={14} className="text-primary" /> : t === 'down' ? <TrendingDown size={14} className="text-destructive" /> : <Minus size={14} className="text-muted-foreground" />;
 
@@ -16,7 +13,7 @@ const TeamsPage = () => {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-foreground">Teams</h1>
-        <p className="text-sm text-muted-foreground">{mockTeams.length} teams across the organization</p>
+        <p className="text-sm text-muted-foreground">{mockTeams.length} teams — aggregate performance metrics</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -24,10 +21,7 @@ const TeamsPage = () => {
           <Card key={team.id} className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => navigate(`/dashboard/teams/${team.id}`)}>
             <CardContent className="p-5">
               <div className="flex items-start justify-between mb-3">
-                <div>
-                  <h3 className="font-semibold text-foreground text-lg">{team.name}</h3>
-                  <p className="text-sm text-muted-foreground">Lead: {team.lead}</p>
-                </div>
+                <h3 className="font-semibold text-foreground text-lg">{team.name}</h3>
                 <div className="flex items-center gap-1">
                   {trendIcon(team.trend)}
                 </div>

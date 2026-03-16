@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, MessageSquare, AlertCircle } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ArrowLeft, MessageSquare } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { mockTickets } from '@/data/mock-data';
@@ -25,7 +25,6 @@ const SupportPage = () => {
   const { toast } = useToast();
   const [replyText, setReplyText] = useState('');
 
-  // Ticket detail view
   if (ticketId) {
     const ticket = mockTickets.find(t => t.id === ticketId);
     if (!ticket) return <div className="text-center py-12 text-muted-foreground">Ticket not found</div>;
@@ -37,18 +36,17 @@ const SupportPage = () => {
           <span>/</span>
           <span className="text-foreground">{ticket.id}</span>
         </div>
-        <div className="flex items-start justify-between">
-          <div>
-            <h1 className="text-xl font-bold text-foreground">{ticket.subject}</h1>
-            <div className="flex gap-2 mt-2">
-              <Badge variant="outline" className={`text-xs ${statusColors[ticket.status]}`}>{ticket.status}</Badge>
-              <Badge variant="outline" className={`text-xs ${priorityColors[ticket.priority]}`}>{ticket.priority}</Badge>
-            </div>
+        <div>
+          <h1 className="text-xl font-bold text-foreground">{ticket.subject}</h1>
+          <div className="flex gap-2 mt-2">
+            <Badge variant="outline" className={`text-xs ${statusColors[ticket.status]}`}>{ticket.status}</Badge>
+            <Badge variant="outline" className={`text-xs ${priorityColors[ticket.priority]}`}>{ticket.priority}</Badge>
+            <Badge variant="outline" className="text-xs">{ticket.department}</Badge>
           </div>
         </div>
         <Card><CardContent className="p-5 space-y-4">
           {ticket.comments.map((c, i) => (
-            <div key={i} className={`p-3 rounded-lg ${c.author === 'Admin' ? 'bg-primary/5 border border-primary/10' : 'bg-muted/50 border border-border'}`}>
+            <div key={i} className={`p-3 rounded-lg ${c.author === 'Company Admin' ? 'bg-primary/5 border border-primary/10' : 'bg-muted/50 border border-border'}`}>
               <p className="text-sm font-medium text-foreground mb-1">{c.author}</p>
               <p className="text-sm text-muted-foreground">{c.text}</p>
               <p className="text-xs text-muted-foreground mt-2">{c.date}</p>
@@ -64,7 +62,6 @@ const SupportPage = () => {
     );
   }
 
-  // Ticket list
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -95,7 +92,7 @@ const SupportPage = () => {
                     <Badge variant="outline" className={`text-xs ${priorityColors[ticket.priority]}`}>{ticket.priority}</Badge>
                   </div>
                   <p className="text-sm font-medium text-foreground">{ticket.subject}</p>
-                  <p className="text-xs text-muted-foreground mt-1">Updated {ticket.updatedAt}</p>
+                  <p className="text-xs text-muted-foreground mt-1">Updated {ticket.updatedAt} · {ticket.department}</p>
                 </div>
                 <span className="text-xs text-muted-foreground">{ticket.comments.length} comments</span>
               </CardContent>

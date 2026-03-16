@@ -51,7 +51,6 @@ const DashboardLayout = () => {
         "fixed left-0 top-0 bottom-0 z-40 flex flex-col bg-card border-r border-border transition-all duration-300",
         collapsed ? "w-16" : "w-60"
       )}>
-        {/* Logo */}
         <div className="h-16 flex items-center gap-2 px-4 border-b border-border">
           <Link to="/" className="flex items-center gap-2 min-w-0">
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
@@ -61,7 +60,6 @@ const DashboardLayout = () => {
           </Link>
         </div>
 
-        {/* Nav */}
         <nav className="flex-1 py-4 px-2 space-y-1 overflow-y-auto">
           {visibleNav.map(item => {
             const isActive = location.pathname === item.path ||
@@ -85,7 +83,6 @@ const DashboardLayout = () => {
           })}
         </nav>
 
-        {/* Collapse toggle */}
         <div className="p-2 border-t border-border">
           <button
             onClick={() => setCollapsed(!collapsed)}
@@ -98,21 +95,18 @@ const DashboardLayout = () => {
 
       {/* Main content */}
       <div className={cn("flex-1 flex flex-col transition-all duration-300", collapsed ? "ml-16" : "ml-60")}>
-        {/* Topbar */}
         <header className="sticky top-0 z-30 h-16 bg-card border-b border-border flex items-center justify-between px-6 gap-4">
-          {/* Search */}
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
             <input
               type="text"
-              placeholder="Search users, teams, reports..."
+              placeholder="Search teams, reports..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               className="w-full pl-9 pr-4 py-2 bg-muted/50 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
 
-          {/* Right side */}
           <div className="flex items-center gap-3">
             <Badge variant="outline" className="text-xs gap-1 cursor-default">
               {(() => { const Icon = roleIcons[role]; return <Icon size={12} />; })()}
@@ -128,7 +122,6 @@ const DashboardLayout = () => {
               <HelpCircle size={18} />
             </button>
 
-            {/* User menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-2 p-1 rounded-lg hover:bg-muted transition-colors">
@@ -142,12 +135,11 @@ const DashboardLayout = () => {
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuLabel>
                   <div className="flex flex-col">
-                    <span className="font-medium">Admin User</span>
-                    <span className="text-xs text-muted-foreground">admin@uniqfitness.com</span>
+                    <span className="font-medium">Portal Admin</span>
+                    <span className="text-xs text-muted-foreground">UNIQ Fitness Ltd</span>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">UNIQ Fitness Ltd</DropdownMenuLabel>
                 <DropdownMenuSub>
                   <DropdownMenuSubTrigger>
                     <Shield className="mr-2 h-4 w-4" />
@@ -172,7 +164,6 @@ const DashboardLayout = () => {
           </div>
         </header>
 
-        {/* Page content */}
         <main className="flex-1 p-6">
           <Outlet />
         </main>
