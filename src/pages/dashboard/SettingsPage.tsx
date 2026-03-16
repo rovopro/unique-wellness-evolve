@@ -70,7 +70,7 @@ const SettingsPage = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-foreground">Aggregate-only analytics</p>
-                <p className="text-xs text-muted-foreground">When enabled, outcomes data shows only aggregate metrics</p>
+                <p className="text-xs text-muted-foreground">When enabled, all data shows only aggregate metrics</p>
               </div>
               <Switch checked={aggregateOnly} onCheckedChange={setAggregateOnly} />
             </div>
@@ -91,8 +91,8 @@ const SettingsPage = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Action</TableHead>
-                    <TableHead>Actor</TableHead>
-                    <TableHead>Target</TableHead>
+                    <TableHead>Role</TableHead>
+                    <TableHead>Details</TableHead>
                     <TableHead>Timestamp</TableHead>
                   </TableRow>
                 </TableHeader>

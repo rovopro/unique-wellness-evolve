@@ -1,22 +1,26 @@
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, TrendingUp, Users } from 'lucide-react';
+import { ArrowLeft, Info } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
-import { mockTeams, mockUsers, dashboardMetrics } from '@/data/mock-data';
+import { Badge } from '@/components/ui/badge';
+import { mockTeams, userAggregates } from '@/data/mock-data';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 const TeamDetail = () => {
   const { id } = useParams();
   const team = mockTeams.find(t => t.id === id) || mockTeams[0];
-  const members = mockUsers.filter(u => u.team === team.name);
+  const teamAgg = userAggregates.byTeam.find(t => t.team === team.name);
 
   const weeklyData = [
     { day: 'Mon', team: 42, company: 35 }, { day: 'Tue', team: 38, company: 33 },
     { day: 'Wed', team: 45, company: 36 }, { day: 'Thu', team: 50, company: 38 },
     { day: 'Fri', team: 35, company: 30 }, { day: 'Sat', team: 20, company: 18 },
     { day: 'Sun', team: 15, company: 12 },
+  ];
+
+  const statusBreakdown = [
+    { status: 'Active', count: teamAgg?.active || 0 },
+    { status: 'Other', count: (teamAgg?.total || 0) - (teamAgg?.active || 0) },
   ];
 
   return (
@@ -27,14 +31,18 @@ const TeamDetail = () => {
         <span className="text-foreground">{team.name}</span>
       </div>
 
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">{team.name}</h1>
-          <p className="text-sm text-muted-foreground">Lead: {team.lead} · {team.members} members</p>
-        </div>
+      <div>
+        <h1 className="text-2xl font-bold text-foreground">{team.name}</h1>
+        <p className="text-sm text-muted-foreground">{team.members} members — aggregate team metrics</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {/* Privacy notice */}
+      <div className="flex items-start gap-3 p-3 rounded-lg bg-primary/5 border border-primary/20">
+        <Info size={16} className="text-primary mt-0.5 flex-shrink-0" />
+        <p className="text-xs text-muted-foreground">Showing aggregate team data only. Individual member data is not displayed.</p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <Card><CardContent className="p-5">
           <p className="text-xs text-muted-foreground uppercase">Activation Rate</p>
           <p className="text-3xl font-bold text-foreground mt-1">{team.activationRate}%</p>
@@ -47,7 +55,14 @@ const TeamDetail = () => {
         </CardContent></Card>
         <Card><CardContent className="p-5">
           <p className="text-xs text-muted-foreground uppercase">Active Members</p>
-          <p className="text-3xl font-bold text-foreground mt-1">{members.filter(m => m.status === 'Active').length}/{members.length}</p>
+          <p className="text-3xl font-bold text-foreground mt-1">{teamAgg?.active || 0}<span className="text-base text-muted-foreground">/{team.members}</span></p>
+        </CardContent></Card>
+        <Card><CardContent className="p-5">
+          <p className="text-xs text-muted-foreground uppercase">Avg Engagement</p>
+          <p className="text-3xl font-bold text-foreground mt-1">{teamAgg?.avgEngagement || 0}%</p>
+          <Badge variant="outline" className="text-xs mt-2">
+            {(teamAgg?.avgEngagement || 0) > userAggregates.avgEngagement ? 'Above' : 'Below'} company avg ({userAggregates.avgEngagement}%)
+          </Badge>
         </CardContent></Card>
       </div>
 
@@ -67,24 +82,20 @@ const TeamDetail = () => {
         </CardContent>
       </Card>
 
-      {/* Members */}
+      {/* Status breakdown */}
       <Card>
-        <CardHeader className="pb-2"><CardTitle className="text-base">Members</CardTitle></CardHeader>
+        <CardHeader className="pb-2"><CardTitle className="text-base">Member Status Breakdown</CardTitle></CardHeader>
         <CardContent className="space-y-3">
-          {members.map(m => (
-            <Link key={m.id} to={`/dashboard/users/${m.id}`} className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/50 transition-colors">
-              <div className="flex items-center gap-3">
-                <Avatar className="h-8 w-8"><AvatarImage src={m.avatar} /><AvatarFallback>{m.name.split(' ').map(n => n[0]).join('')}</AvatarFallback></Avatar>
-                <div>
-                  <p className="text-sm font-medium text-foreground">{m.name}</p>
-                  <p className="text-xs text-muted-foreground">{m.role}</p>
+          {statusBreakdown.map(s => (
+            <div key={s.status} className="flex items-center justify-between text-sm">
+              <span className="text-foreground">{s.status}</span>
+              <div className="flex items-center gap-2">
+                <div className="w-24 h-1.5 rounded-full bg-muted overflow-hidden">
+                  <div className="h-full rounded-full bg-primary" style={{ width: `${(s.count / team.members) * 100}%` }} />
                 </div>
+                <span className="text-muted-foreground w-6 text-right">{s.count}</span>
               </div>
-              <div className="flex items-center gap-3">
-                <Badge variant="outline" className={`text-xs ${m.status === 'Active' ? 'bg-primary/10 text-primary' : 'bg-muted'}`}>{m.status}</Badge>
-                <span className="text-sm text-muted-foreground">{m.engagementScore}%</span>
-              </div>
-            </Link>
+            </div>
           ))}
         </CardContent>
       </Card>

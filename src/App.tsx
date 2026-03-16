@@ -9,7 +9,6 @@ import NotFound from "./pages/NotFound";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
 import DashboardHome from "./pages/dashboard/DashboardHome";
 import UsersPage from "./pages/dashboard/UsersPage";
-import UserProfile from "./pages/dashboard/UserProfile";
 import TeamsPage from "./pages/dashboard/TeamsPage";
 import TeamDetail from "./pages/dashboard/TeamDetail";
 import AnalyticsPage from "./pages/dashboard/AnalyticsPage";
@@ -33,7 +32,7 @@ const App = () => (
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route index element={<DashboardHome />} />
               <Route path="users" element={<UsersPage />} />
-              <Route path="users/:id" element={<UserProfile />} />
+              
               <Route path="teams" element={<TeamsPage />} />
               <Route path="teams/:id" element={<TeamDetail />} />
               <Route path="analytics" element={<AnalyticsPage />} />
