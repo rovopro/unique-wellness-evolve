@@ -179,15 +179,14 @@ export const ProfileDialog = ({ open, onOpenChange }: ProfileDialogProps) => {
                 ))}
 
                 <div className="pt-4 border-t border-border space-y-3">
-                  <Button variant="outline" className="w-full justify-start" onClick={() => toast({ title: 'Export started', description: 'You\'ll receive an email when ready.' })}>
-                    <Download size={16} /> Export my data
-                  </Button>
                   <Button variant="outline" className="w-full justify-start text-destructive hover:text-destructive" onClick={() => toast({ title: 'Request submitted', description: 'Account deletion requires confirmation.', variant: 'destructive' })}>
                     <Trash2 size={16} /> Delete account
                   </Button>
                 </div>
               </div>
             )}
+
+            {section === 'seats' && <SeatsSection />}
 
             {section === 'subscription' && (
               <div className="space-y-6">
