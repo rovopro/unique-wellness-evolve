@@ -19,7 +19,7 @@ interface ProfileDialogProps {
 const navItems: { id: Section; label: string; icon: typeof User }[] = [
   { id: 'account', label: 'Account', icon: User },
   { id: 'data', label: 'Data Controls', icon: Database },
-  { id: 'seats', label: 'Seats', icon: Users },
+  { id: 'seats', label: 'Manage Members', icon: Users },
   { id: 'subscription', label: 'Subscription', icon: CreditCard },
 ];
 
