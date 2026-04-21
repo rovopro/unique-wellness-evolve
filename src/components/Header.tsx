@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Home, ChevronDown, Dumbbell, Apple, Heart, User } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ProfileDialog } from '@/components/ProfileDialog';
 
 const goalItems = [
   { label: 'Losing Weight', href: '/goals/losing-weight' },
@@ -32,7 +31,6 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<DropdownKey | null>(null);
-  const [profileOpen, setProfileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -209,15 +207,15 @@ const Header = () => {
             <Button variant="outline" size="lg">Dashboard</Button>
           </Link>
           <Button variant="accent" size="lg">Get Started</Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full h-11 w-11"
-            onClick={() => setProfileOpen(true)}
-            aria-label="Profile settings"
-          >
-            <User size={18} />
-          </Button>
+          <Link to="/account" aria-label="Account settings">
+            <Button
+              variant="outline"
+              size="icon"
+              className="rounded-full h-11 w-11"
+            >
+              <User size={18} />
+            </Button>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -275,19 +273,15 @@ const Header = () => {
                 <Button variant="outline" className="mt-2 w-full">Dashboard</Button>
               </Link>
               <Button variant="accent" className="mt-2 w-full">Get Started</Button>
-              <Button
-                variant="outline"
-                className="mt-2 w-full"
-                onClick={() => { setIsMobileMenuOpen(false); setProfileOpen(true); }}
-              >
-                <User size={16} /> Profile
-              </Button>
+              <Link to="/account" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button variant="outline" className="mt-2 w-full">
+                  <User size={16} /> Account
+                </Button>
+              </Link>
             </nav>
           </motion.div>
         )}
       </AnimatePresence>
-
-      <ProfileDialog open={profileOpen} onOpenChange={setProfileOpen} />
     </header>
   );
 };

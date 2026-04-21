@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
@@ -7,14 +7,9 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import { User, Database, CreditCard, Eye, EyeOff, Check, Trash2, Sparkles, Users, Mail, Send, RotateCw, X, Plus } from 'lucide-react';
+import { User, Database, CreditCard, Eye, EyeOff, Check, Trash2, Sparkles, Users, Mail, Send, RotateCw, X, Plus, ArrowLeft, Home } from 'lucide-react';
 
 type Section = 'account' | 'data' | 'seats' | 'subscription';
-
-interface ProfileDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
 
 const navItems: { id: Section; label: string; icon: typeof User }[] = [
   { id: 'account', label: 'Account', icon: User },
@@ -23,7 +18,7 @@ const navItems: { id: Section; label: string; icon: typeof User }[] = [
   { id: 'subscription', label: 'Subscription', icon: CreditCard },
 ];
 
-export const ProfileDialog = ({ open, onOpenChange }: ProfileDialogProps) => {
+const AccountPage = () => {
   const { toast } = useToast();
   const [section, setSection] = useState<Section>('account');
   const [email, setEmail] = useState('admin@uniqfitness.com');
@@ -51,13 +46,32 @@ export const ProfileDialog = ({ open, onOpenChange }: ProfileDialogProps) => {
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl p-0 overflow-hidden bg-card border-border">
-        <div className="flex min-h-[560px]">
+    <div className="min-h-screen bg-background">
+      {/* Top bar */}
+      <header className="sticky top-0 z-30 h-16 bg-card border-b border-border flex items-center justify-between px-6">
+        <Link to="/" className="flex items-center gap-2">
+          <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center">
+            <Home className="text-primary-foreground" size={18} />
+          </div>
+          <span className="font-display font-bold text-lg text-foreground">UN1Q</span>
+        </Link>
+        <Link to="/">
+          <Button variant="outline" size="sm">
+            <ArrowLeft size={16} /> Back to site
+          </Button>
+        </Link>
+      </header>
+
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="mb-8">
+          <h1 className="font-display text-3xl font-bold text-foreground">Settings</h1>
+          <p className="text-muted-foreground mt-1">Manage your account, members, and subscription.</p>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-8">
           {/* Sidebar */}
-          <aside className="w-56 bg-muted/40 border-r border-border p-4 flex flex-col">
-            <h2 className="text-lg font-bold text-foreground px-3 py-2 mb-2">Settings</h2>
-            <nav className="space-y-1">
+          <aside className="md:w-60 flex-shrink-0">
+            <nav className="space-y-1 md:sticky md:top-24">
               {navItems.map(item => {
                 const Icon = item.icon;
                 const active = section === item.id;
@@ -81,7 +95,7 @@ export const ProfileDialog = ({ open, onOpenChange }: ProfileDialogProps) => {
           </aside>
 
           {/* Content */}
-          <div className="flex-1 p-8 overflow-y-auto max-h-[80vh]">
+          <div className="flex-1 bg-card border border-border rounded-2xl p-6 md:p-8">
             {section === 'account' && (
               <div className="space-y-6">
                 <div className="flex items-center gap-4 pb-6 border-b border-border">
@@ -232,8 +246,8 @@ export const ProfileDialog = ({ open, onOpenChange }: ProfileDialogProps) => {
             )}
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </div>
   );
 };
 
@@ -265,12 +279,12 @@ const SeatsSection = () => {
   const usedPct = (used / TOTAL_SEATS) * 100;
 
   const handleInvite = () => {
-    const email = newEmail.trim().toLowerCase();
-    if (!email || !email.includes('@')) {
+    const e = newEmail.trim().toLowerCase();
+    if (!e || !e.includes('@')) {
       toast({ title: 'Invalid email', description: 'Please enter a valid email address.', variant: 'destructive' });
       return;
     }
-    if (seats.some(s => s.email === email)) {
+    if (seats.some(s => s.email === e)) {
       toast({ title: 'Already invited', description: 'This email is already on a seat.', variant: 'destructive' });
       return;
     }
@@ -282,22 +296,22 @@ const SeatsSection = () => {
       ...seats,
       {
         id: Date.now().toString(),
-        email,
+        email: e,
         status: 'pending',
         invitedAt: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
       },
     ]);
     setNewEmail('');
-    toast({ title: 'Invite sent', description: `${email} has been invited.` });
+    toast({ title: 'Invite sent', description: `${e} has been invited.` });
   };
 
-  const handleResend = (email: string) => {
-    toast({ title: 'Invite resent', description: `New invitation sent to ${email}.` });
+  const handleResend = (e: string) => {
+    toast({ title: 'Invite resent', description: `New invitation sent to ${e}.` });
   };
 
-  const handleRemove = (id: string, email: string) => {
+  const handleRemove = (id: string, e: string) => {
     setSeats(seats.filter(s => s.id !== id));
-    toast({ title: 'Seat released', description: `${email} has been removed.` });
+    toast({ title: 'Seat released', description: `${e} has been removed.` });
   };
 
   return (
@@ -315,7 +329,6 @@ const SeatsSection = () => {
         </Button>
       </div>
 
-      {/* Usage overview */}
       <div className="p-5 rounded-xl border border-border bg-muted/30">
         <div className="flex items-baseline justify-between mb-3">
           <div>
@@ -333,7 +346,6 @@ const SeatsSection = () => {
         </div>
       </div>
 
-      {/* Invite form */}
       <div className="space-y-2">
         <label className="text-sm font-medium text-foreground">Invite to a seat</label>
         <div className="flex gap-2">
@@ -359,7 +371,6 @@ const SeatsSection = () => {
         </div>
       </div>
 
-      {/* Seat list */}
       <div className="space-y-2">
         <p className="text-sm font-medium text-foreground">Allocated seats</p>
         <div className="border border-border rounded-lg divide-y divide-border overflow-hidden">
@@ -415,3 +426,5 @@ const SeatsSection = () => {
     </div>
   );
 };
+
+export default AccountPage;
