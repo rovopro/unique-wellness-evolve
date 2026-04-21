@@ -7,9 +7,9 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import { User, Database, CreditCard, Eye, EyeOff, Check, Download, Trash2, Sparkles } from 'lucide-react';
+import { User, Database, CreditCard, Eye, EyeOff, Check, Trash2, Sparkles, Users, Mail, Send, RotateCw, X } from 'lucide-react';
 
-type Section = 'account' | 'data' | 'subscription';
+type Section = 'account' | 'data' | 'seats' | 'subscription';
 
 interface ProfileDialogProps {
   open: boolean;
@@ -19,6 +19,7 @@ interface ProfileDialogProps {
 const navItems: { id: Section; label: string; icon: typeof User }[] = [
   { id: 'account', label: 'Account', icon: User },
   { id: 'data', label: 'Data Controls', icon: Database },
+  { id: 'seats', label: 'Seats', icon: Users },
   { id: 'subscription', label: 'Subscription', icon: CreditCard },
 ];
 
@@ -178,15 +179,14 @@ export const ProfileDialog = ({ open, onOpenChange }: ProfileDialogProps) => {
                 ))}
 
                 <div className="pt-4 border-t border-border space-y-3">
-                  <Button variant="outline" className="w-full justify-start" onClick={() => toast({ title: 'Export started', description: 'You\'ll receive an email when ready.' })}>
-                    <Download size={16} /> Export my data
-                  </Button>
                   <Button variant="outline" className="w-full justify-start text-destructive hover:text-destructive" onClick={() => toast({ title: 'Request submitted', description: 'Account deletion requires confirmation.', variant: 'destructive' })}>
                     <Trash2 size={16} /> Delete account
                   </Button>
                 </div>
               </div>
             )}
+
+            {section === 'seats' && <SeatsSection />}
 
             {section === 'subscription' && (
               <div className="space-y-6">
@@ -234,5 +234,176 @@ export const ProfileDialog = ({ open, onOpenChange }: ProfileDialogProps) => {
         </div>
       </DialogContent>
     </Dialog>
+  );
+};
+
+type SeatStatus = 'active' | 'pending';
+interface Seat {
+  id: string;
+  email: string;
+  status: SeatStatus;
+  invitedAt: string;
+}
+
+const initialSeats: Seat[] = [
+  { id: '1', email: 'sarah.admin@uniqfitness.com', status: 'active', invitedAt: 'Jan 12, 2025' },
+  { id: '2', email: 'mike.h@uniqfitness.com', status: 'active', invitedAt: 'Jan 14, 2025' },
+  { id: '3', email: 'team.lead@uniqfitness.com', status: 'active', invitedAt: 'Feb 3, 2025' },
+  { id: '4', email: 'alex.t@uniqfitness.com', status: 'pending', invitedAt: 'Mar 18, 2025' },
+  { id: '5', email: 'jenna.k@uniqfitness.com', status: 'pending', invitedAt: 'Mar 20, 2025' },
+];
+
+const TOTAL_SEATS = 10;
+
+const SeatsSection = () => {
+  const { toast } = useToast();
+  const [seats, setSeats] = useState<Seat[]>(initialSeats);
+  const [newEmail, setNewEmail] = useState('');
+
+  const used = seats.length;
+  const available = TOTAL_SEATS - used;
+  const usedPct = (used / TOTAL_SEATS) * 100;
+
+  const handleInvite = () => {
+    const email = newEmail.trim().toLowerCase();
+    if (!email || !email.includes('@')) {
+      toast({ title: 'Invalid email', description: 'Please enter a valid email address.', variant: 'destructive' });
+      return;
+    }
+    if (seats.some(s => s.email === email)) {
+      toast({ title: 'Already invited', description: 'This email is already on a seat.', variant: 'destructive' });
+      return;
+    }
+    if (available <= 0) {
+      toast({ title: 'No seats available', description: 'Purchase more seats to invite users.', variant: 'destructive' });
+      return;
+    }
+    setSeats([
+      ...seats,
+      {
+        id: Date.now().toString(),
+        email,
+        status: 'pending',
+        invitedAt: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      },
+    ]);
+    setNewEmail('');
+    toast({ title: 'Invite sent', description: `${email} has been invited.` });
+  };
+
+  const handleResend = (email: string) => {
+    toast({ title: 'Invite resent', description: `New invitation sent to ${email}.` });
+  };
+
+  const handleRemove = (id: string, email: string) => {
+    setSeats(seats.filter(s => s.id !== id));
+    toast({ title: 'Seat released', description: `${email} has been removed.` });
+  };
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-xl font-bold text-foreground">Seats</h3>
+        <p className="text-sm text-muted-foreground mt-1">Manage your team's access to UN1Q.</p>
+      </div>
+
+      {/* Usage overview */}
+      <div className="p-5 rounded-xl border border-border bg-muted/30">
+        <div className="flex items-baseline justify-between mb-3">
+          <div>
+            <p className="text-3xl font-bold text-foreground">
+              {used} <span className="text-base font-normal text-muted-foreground">/ {TOTAL_SEATS} seats used</span>
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">
+              {available} seat{available === 1 ? '' : 's'} available
+            </p>
+          </div>
+          <Badge className="bg-primary/10 text-primary border-primary/20">{Math.round(usedPct)}% utilized</Badge>
+        </div>
+        <div className="h-2 bg-muted rounded-full overflow-hidden">
+          <div className="h-full bg-primary transition-all" style={{ width: `${usedPct}%` }} />
+        </div>
+      </div>
+
+      {/* Invite form */}
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-foreground">Invite to a seat</label>
+        <div className="flex gap-2">
+          <div className="flex-1 relative">
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={16} />
+            <Input
+              type="email"
+              placeholder="colleague@company.com"
+              value={newEmail}
+              onChange={e => setNewEmail(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleInvite()}
+              className="pl-9"
+              disabled={available <= 0}
+            />
+          </div>
+          <Button
+            onClick={handleInvite}
+            disabled={available <= 0}
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
+          >
+            <Send size={16} /> Invite
+          </Button>
+        </div>
+      </div>
+
+      {/* Seat list */}
+      <div className="space-y-2">
+        <p className="text-sm font-medium text-foreground">Allocated seats</p>
+        <div className="border border-border rounded-lg divide-y divide-border overflow-hidden">
+          {seats.map(seat => (
+            <div key={seat.id} className="flex items-center justify-between p-3 hover:bg-muted/30 transition-colors">
+              <div className="flex items-center gap-3 min-w-0">
+                <Avatar className="h-9 w-9 flex-shrink-0">
+                  <AvatarFallback className="bg-muted text-foreground text-xs font-medium">
+                    {seat.email.slice(0, 2).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-foreground truncate">{seat.email}</p>
+                  <p className="text-xs text-muted-foreground">Invited {seat.invitedAt}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <Badge
+                  variant="outline"
+                  className={cn(
+                    'text-xs',
+                    seat.status === 'active'
+                      ? 'bg-primary/10 text-primary border-primary/20'
+                      : 'bg-muted text-muted-foreground border-border'
+                  )}
+                >
+                  {seat.status === 'active' ? 'Active' : 'Pending'}
+                </Badge>
+                {seat.status === 'pending' && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleResend(seat.email)}
+                    className="h-8"
+                  >
+                    <RotateCw size={14} /> Resend
+                  </Button>
+                )}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleRemove(seat.id, seat.email)}
+                  className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                  aria-label="Remove seat"
+                >
+                  <X size={14} />
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
