@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { RoleProvider } from "@/contexts/RoleContext";
 import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
+import Account from "./pages/Account";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
 import DashboardHome from "./pages/dashboard/DashboardHome";
 import UsersPage from "./pages/dashboard/UsersPage";
@@ -29,6 +30,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Pricing />} />
+            <Route path="/account" element={<Account />} />
             <Route path="/dashboard" element={<DashboardLayout />}>
               <Route index element={<DashboardHome />} />
               <Route path="users" element={<UsersPage />} />
