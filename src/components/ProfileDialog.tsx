@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import { User, Database, CreditCard, Eye, EyeOff, Check, Trash2, Sparkles, Users, Mail, Send, RotateCw, X } from 'lucide-react';
+import { User, Database, CreditCard, Eye, EyeOff, Check, Trash2, Sparkles, Users, Mail, Send, RotateCw, X, Plus } from 'lucide-react';
 
 type Section = 'account' | 'data' | 'seats' | 'subscription';
 
@@ -302,9 +302,17 @@ const SeatsSection = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h3 className="text-xl font-bold text-foreground">Seats</h3>
-        <p className="text-sm text-muted-foreground mt-1">Manage your team's access to UN1Q.</p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h3 className="text-xl font-bold text-foreground">Manage Members</h3>
+          <p className="text-sm text-muted-foreground mt-1">Invite your team and manage allocated seats.</p>
+        </div>
+        <Button
+          onClick={() => toast({ title: 'Add seats', description: 'Opening seat purchase flow...' })}
+          className="bg-primary text-primary-foreground hover:bg-primary/90 flex-shrink-0"
+        >
+          <Plus size={16} /> Add seats
+        </Button>
       </div>
 
       {/* Usage overview */}
