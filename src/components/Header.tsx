@@ -273,19 +273,15 @@ const Header = () => {
                 <Button variant="outline" className="mt-2 w-full">Dashboard</Button>
               </Link>
               <Button variant="accent" className="mt-2 w-full">Get Started</Button>
-              <Button
-                variant="outline"
-                className="mt-2 w-full"
-                onClick={() => { setIsMobileMenuOpen(false); setProfileOpen(true); }}
-              >
-                <User size={16} /> Profile
-              </Button>
+              <Link to="/account" onClick={() => setIsMobileMenuOpen(false)}>
+                <Button variant="outline" className="mt-2 w-full">
+                  <User size={16} /> Account
+                </Button>
+              </Link>
             </nav>
           </motion.div>
         )}
       </AnimatePresence>
-
-      <ProfileDialog open={profileOpen} onOpenChange={setProfileOpen} />
     </header>
   );
 };
