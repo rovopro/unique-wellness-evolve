@@ -7,9 +7,9 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
-import { User, Database, CreditCard, Eye, EyeOff, Check, Download, Trash2, Sparkles } from 'lucide-react';
+import { User, Database, CreditCard, Eye, EyeOff, Check, Trash2, Sparkles, Users, Mail, Send, RotateCw, X } from 'lucide-react';
 
-type Section = 'account' | 'data' | 'subscription';
+type Section = 'account' | 'data' | 'seats' | 'subscription';
 
 interface ProfileDialogProps {
   open: boolean;
@@ -19,6 +19,7 @@ interface ProfileDialogProps {
 const navItems: { id: Section; label: string; icon: typeof User }[] = [
   { id: 'account', label: 'Account', icon: User },
   { id: 'data', label: 'Data Controls', icon: Database },
+  { id: 'seats', label: 'Seats', icon: Users },
   { id: 'subscription', label: 'Subscription', icon: CreditCard },
 ];
 
