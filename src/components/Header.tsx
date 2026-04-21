@@ -207,15 +207,15 @@ const Header = () => {
             <Button variant="outline" size="lg">Dashboard</Button>
           </Link>
           <Button variant="accent" size="lg">Get Started</Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full h-11 w-11"
-            onClick={() => setProfileOpen(true)}
-            aria-label="Profile settings"
-          >
-            <User size={18} />
-          </Button>
+          <Link to="/account" aria-label="Account settings">
+            <Button
+              variant="outline"
+              size="icon"
+              className="rounded-full h-11 w-11"
+            >
+              <User size={18} />
+            </Button>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
